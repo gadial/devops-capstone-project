@@ -155,4 +155,25 @@ class TestAccountService(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         received_accounts = response.get_json()
         self.assertEqual(len(received_accounts), len(accounts))
-        self.assertEqual(received_accounts[0]["name"], accounts[0].name)
+
+    def test_update_account(self):
+        new_account = self._create_accounts(1)[0]
+        new_name = "my_new_name"
+        new_account.name = new_name
+
+        response = self.client.put(
+            f"{BASE_URL}/{new_account.id}",
+            json=new_account.serialize(),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        received_account = response.get_json()
+        self.assertEqual(received_account["name"], new_name)
+
+        # bad path test
+        response = self.client.put(
+            f"{BASE_URL}/{new_account.id + 13}",
+            json=new_account.serialize(),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

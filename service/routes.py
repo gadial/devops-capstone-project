@@ -79,11 +79,11 @@ def list_accounts():
 # READ AN ACCOUNT
 ######################################################################
 
-@app.route("/accounts/<id>", methods=["GET"])
+@app.route("/accounts/<int:id>", methods=["GET"])
 def read_account(id):
     """
     Reads an Account
-    
+
     This endpoint will read Account based the id given in the url
     """
     app.logger.info("Request to read an Account")
@@ -100,7 +100,19 @@ def read_account(id):
 # UPDATE AN EXISTING ACCOUNT
 ######################################################################
 
-# ... place you code here to UPDATE an account ...
+@app.route("/accounts/<int:id>", methods=["PUT"])
+def update_accounts(id):
+    """
+    Update an Account
+    This endpoint will update an Account based on the posted data
+    """
+    app.logger.info(f"Request to update an Account with id: {id}")
+    account_to_update = Account.find(id)
+    if account_to_update is None:
+        return "Account not found", status.HTTP_404_NOT_FOUND
+    account_to_update.deserialize(request.get_json())
+    account_to_update.update()
+    return account_to_update.serialize(), status.HTTP_200_OK
 
 
 ######################################################################
