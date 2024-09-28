@@ -199,7 +199,7 @@ class TestAccountService(TestCase):
             content_type="application/json"
         )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-        
+
     def test_error_handlers(self):
         response = self.client.get("/account")
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

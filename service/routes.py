@@ -63,6 +63,7 @@ def create_accounts():
 
 ######################################################################
 
+
 @app.route("/accounts", methods=["GET"])
 def list_accounts():
     """
@@ -79,6 +80,7 @@ def list_accounts():
 # READ AN ACCOUNT
 ######################################################################
 
+
 @app.route("/accounts/<int:id>", methods=["GET"])
 def read_account(id):
     """
@@ -92,8 +94,6 @@ def read_account(id):
         return "Account not found", status.HTTP_404_NOT_FOUND
     serialized_account = account.serialize()
     return serialized_account, status.HTTP_200_OK
-
-
 
 
 ######################################################################
